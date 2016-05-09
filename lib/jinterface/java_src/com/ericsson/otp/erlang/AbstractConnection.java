@@ -1369,8 +1369,10 @@ public abstract class AbstractConnection extends Thread {
             final String status = OtpErlangString.newString(tmpbuf);
 
             if (status.compareTo("ok") != 0) {
-                throw new IOException("Peer replied with status '" + status
-                        + "' instead of 'ok'");
+		if (status.compareTo("ok_simultaneous") != 0) {
+                	throw new IOException("Peer replied with status '" + status
+                        	+ "' instead of 'ok'");
+		}
             }
         } catch (final OtpErlangDecodeException e) {
             throw new IOException("Handshake failed - not enough data");
